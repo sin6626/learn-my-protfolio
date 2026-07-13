@@ -1,10 +1,15 @@
+// https://nuxt.com/docs/guide/concepts/typescript
+/**
+ * TypeScript 配置入口
+ * - 本身不直接包含 compilerOptions,而是通过 references 引用 Nuxt 自动生成的子 tsconfig
+ * - 这些子配置由 `nuxt prepare` 生成到 .nuxt 目录,包含别名、类型等
+ */
 {
-  // https://nuxt.com/docs/guide/concepts/typescript
   "files": [],
   "references": [
-    { "path": "./.nuxt/tsconfig.app.json" },
-    { "path": "./.nuxt/tsconfig.server.json" },
-    { "path": "./.nuxt/tsconfig.shared.json" },
-    { "path": "./.nuxt/tsconfig.node.json" }
+    { "path": "./.nuxt/tsconfig.app.json" },     // 应用端 (Vue 组件等) 类型配置
+    { "path": "./.nuxt/tsconfig.server.json" },   // 服务端 (Nitro) 类型配置
+    { "path": "./.nuxt/tsconfig.shared.json" },   // 应用与服务端共享类型配置
+    { "path": "./.nuxt/tsconfig.node.json" }      // Node 端构建脚本类型配置
   ]
 }

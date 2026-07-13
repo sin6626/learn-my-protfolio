@@ -1,8 +1,18 @@
+/**
+ * OG 分享图模板组件 (用于 nuxt-og-image)
+ * - 在服务端通过浏览器无头渲染生成静态图,作为社交分享时的预览图
+ * - 暗色主题: 左侧主色竖条 + 大标题 + 描述 + Nuxt logo
+ * - 文件名 .takumi.vue 表示这是一个 takumi 渲染器兼容的模板 (社区命名约定)
+ * - 在页面中通过 defineOgImage('Portfolio', { title, description, headline }) 调用
+ */
+
 <script setup lang="ts">
+// OG 图作为根节点直接渲染,关闭属性继承避免 attrs 附加到 div
 defineOptions({
   inheritAttrs: false
 })
 
+// 模板支持的三种可选字段
 defineProps<{
   headline?: string
   title?: string
@@ -11,15 +21,20 @@ defineProps<{
 </script>
 
 <template>
+  <!-- OG 图根节点: 暗色背景,固定尺寸 (由 og-image 上下文给定),主题强制 dark -->
   <div
     class="w-full h-full flex bg-neutral-950 relative overflow-hidden"
     data-theme="dark"
   >
+    <!-- 左侧主色竖条装饰 -->
     <div class="absolute top-0 left-0 w-1.5 h-full bg-primary-400" />
 
+    <!-- 主体内容: 上下分布,中间留白 -->
     <div class="flex flex-col justify-between flex-1 px-20 py-16">
+      <!-- 上部: 占位 -->
       <div />
 
+      <!-- 中部: headline / title / description -->
       <div class="flex flex-col gap-5">
         <span
           v-if="headline"
@@ -44,6 +59,7 @@ defineProps<{
         </p>
       </div>
 
+      <!-- 底部: Nuxt logo + 分隔线 + 站点名 -->
       <div class="flex items-center gap-4">
         <svg
           class="size-8"

@@ -1,3 +1,10 @@
+/**
+ * 首页 FAQ 常见问题区
+ * - 由 index.yml 的 faq 字段驱动 (含 categories,内部再有 questions)
+ * - 上层 UTabs 按分类切换,层内 UAccordion 折叠问答
+ * - 自定义 UTabs 与 UAccordion 的 UI 样式 (背景、触发器、尾图标旋转等)
+ */
+
 <script setup lang="ts">
 import type { IndexCollectionItem } from '@nuxt/content'
 
@@ -5,6 +12,7 @@ const props = defineProps<{
   page: IndexCollectionItem
 }>()
 
+// 将首页 FAQ 配置中的 categories 转换为 UTabs 所需的 items 格式
 const items = computed(() => {
   return props.page.faq?.categories.map((faq) => {
     return {
@@ -15,6 +23,7 @@ const items = computed(() => {
   })
 })
 
+// UTabs 的自定义 UI 样式覆盖 (列表、指示器、触发器、标签)
 const ui = {
   root: 'flex items-center gap-4 w-full',
   list: 'relative flex bg-transparent dark:bg-transparent gap-2 px-0',
@@ -34,11 +43,13 @@ const ui = {
       description: 'text-left mt-2 text-sm sm:text-md lg:text-sm text-muted'
     }"
   >
+    <!-- 顶部 Tab 切换分类 -->
     <UTabs
       :items
       orientation="horizontal"
       :ui
     >
+      <!-- 每个 Tab 内的内容: 折叠面板展示该分类下的问题 -->
       <template #content="{ item }">
         <UAccordion
           trailing-icon="lucide:plus"
@@ -50,6 +61,7 @@ const ui = {
             trailingIcon: 'group-data-[state=closed]:rotate-0 group-data-[state=open]:rotate-135 text-base text-muted'
           }"
         >
+          <!-- 折叠展开后的内容: MDC 渲染,去掉顶层 p 包裹 -->
           <template #body="{ item: _item }">
             <MDC
               :value="_item.content"

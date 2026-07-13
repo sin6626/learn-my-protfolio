@@ -1,4 +1,13 @@
+/**
+ * 博客列表页 (/blog)
+ * - 从 pages 集合取 /blog 页面元信息 (标题/描述/链接)
+ * - 从 blog 集合取所有文章,按 date 倒序排列
+ * - 使用 UBlogPosts + Motion 实现 staggered 进入动画
+ * - 生成自定义 OG 分享图
+ */
+
 <script setup lang="ts">
+// 取页面元信息 (blog.yml)
 const { data: page } = await useAsyncData('blog-page', () => {
   return queryCollection('pages').path('/blog').first()
 })
@@ -9,6 +18,8 @@ if (!page.value) {
     fatal: true
   })
 }
+
+// 取所有博客文章,按日期倒序
 const { data: posts } = await useAsyncData('blogs', () =>
   queryCollection('blog').order('date', 'DESC').all()
 )
@@ -20,6 +31,7 @@ if (!posts.value) {
   })
 }
 
+// 计算 SEO 信息
 const title = page.value?.seo?.title || page.value?.title
 const description = page.value?.seo?.description || page.value?.description
 
@@ -35,6 +47,7 @@ defineOgImage('Portfolio', { title, description })
 
 <template>
   <UPage v-if="page">
+    <!-- 标题 + 描述 -->
     <UPageHero
       :title="page.title"
       :description="page.description"
@@ -45,6 +58,8 @@ defineOgImage('Portfolio', { title, description })
         links: 'justify-start'
       }"
     />
+
+    <!-- 博客文章列表 (垂直方向 + 渐入动画) -->
     <UPageSection
       :ui="{
         container: 'pt-0!'

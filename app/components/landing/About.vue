@@ -1,6 +1,13 @@
+/**
+ * 首页 About 区域
+ * - 由 index.yml 的 about 字段驱动 (标题 + 描述)
+ * - 简单文字段落,左对齐布局
+ */
+
 <script setup lang="ts">
 import type { IndexCollectionItem } from '@nuxt/content'
 
+// 接收首页数据
 defineProps<{
   page: IndexCollectionItem
 }>()

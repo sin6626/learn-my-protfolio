@@ -1,8 +1,17 @@
+/**
+ * Hero 区 (首页主视觉)
+ * - 由 index.yml 中的 hero 字段驱动
+ * - 包含: 头像 (按颜色模式切换)、标题、描述、CTA 按钮 + 接单状态、社交链接、跑马灯图片
+ * - 使用 Motion 实现多个元素的 staggered 渐入动画 (按 delay 错开)
+ */
+
 <script setup lang="ts">
 import type { IndexCollectionItem } from '@nuxt/content'
 
+// 接收 footer (社交链接) 与 global (头像/接单状态等) 配置
 const { footer, global } = useAppConfig()
 
+// 接收首页数据 (index.yml 解析后的对象)
 defineProps<{
   page: IndexCollectionItem
 }>()
@@ -16,6 +25,7 @@ defineProps<{
       links: 'mt-4 flex-col justify-center items-center'
     }"
   >
+    <!-- 顶部头像: scale + 模糊渐入 -->
     <template #headline>
       <Motion
         :initial="{
@@ -42,6 +52,7 @@ defineProps<{
       </Motion>
     </template>
 
+    <!-- 标题: 同样的缩放模糊渐入动画 -->
     <template #title>
       <Motion
         :initial="{
@@ -63,6 +74,7 @@ defineProps<{
       </Motion>
     </template>
 
+    <!-- 描述: delay 0.3 错开标题 -->
     <template #description>
       <Motion
         :initial="{
@@ -84,6 +96,7 @@ defineProps<{
       </Motion>
     </template>
 
+    <!-- 行动按钮区: 主要 CTA + 接单状态指示 -->
     <template #links>
       <Motion
         :initial="{
@@ -105,7 +118,9 @@ defineProps<{
           v-if="page.hero.links"
           class="flex items-center gap-2"
         >
+          <!-- 第一个 CTA 按钮 (来自配置文件) -->
           <UButton v-bind="page.hero.links[0]" />
+          <!-- 接单状态按钮: 可接单时绿色脉冲,否则红色 -->
           <UButton
             :color="global.available ? 'success' : 'error'"
             variant="ghost"
@@ -113,6 +128,7 @@ defineProps<{
             :to="global.available ? global.meetingLink : ''"
             :label="global.available ? 'Available for new projects' : 'Not available at the moment'"
           >
+            <!-- 前置: 脉冲圆点 (接单时) 或静止红点 -->
             <template #leading>
               <span class="relative flex size-2">
                 <span
@@ -129,6 +145,7 @@ defineProps<{
         </div>
       </Motion>
 
+      <!-- 社交链接区: 按 index 错开 delay -->
       <div class="gap-x-4 inline-flex mt-4">
         <Motion
           v-for="(link, index) of footer?.links"
@@ -156,6 +173,7 @@ defineProps<{
       </div>
     </template>
 
+    <!-- 跑马灯: 自动滚动展示一组图片 (鼠标悬停可暂停) -->
     <UMarquee
       pause-on-hover
       class="py-2 -mx-8 sm:-mx-12 lg:-mx-16 [--duration:40s]"
@@ -178,6 +196,7 @@ defineProps<{
           delay: index * 0.1
         }"
       >
+        <!-- 跑马灯内每个图片: 偶数项向左微旋,奇数项向右微旋 -->
         <NuxtImg
           width="234"
           height="234"

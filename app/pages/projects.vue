@@ -1,4 +1,13 @@
+/**
+ * 项目列表页 (/projects)
+ * - 从 pages 集合取 /projects 页面元信息 (标题/描述/链接)
+ * - 从 projects 集合取所有项目卡片数据
+ * - 使用 Motion 实现进入视口时的淡入上移动画 (按索引错开延迟)
+ * - 生成自定义 OG 分享图
+ */
+
 <script setup lang="ts">
+// 取页面元信息 (projects.yml)
 const { data: page } = await useAsyncData('projects-page', () => {
   return queryCollection('pages').path('/projects').first()
 })
@@ -10,12 +19,15 @@ if (!page.value) {
   })
 }
 
+// 取所有项目数据 (projects/*.yml)
 const { data: projects } = await useAsyncData('projects', () => {
   return queryCollection('projects').all()
 })
 
+// 取全局配置 (会议预约链接、邮箱)
 const { global } = useAppConfig()
 
+// 计算 SEO 信息
 const title = page.value?.seo?.title || page.value?.title
 const description = page.value?.seo?.description || page.value?.description
 
@@ -31,6 +43,7 @@ defineOgImage('Portfolio', { title, description })
 
 <template>
   <UPage v-if="page">
+    <!-- 标题 + 描述 + 自定义 links 槽 (覆盖默认按钮以接入预约链接和邮箱) -->
     <UPageHero
       :title="page.title"
       :description="page.description"
@@ -41,6 +54,7 @@ defineOgImage('Portfolio', { title, description })
         links: 'justify-start'
       }"
     >
+      <!-- 自定义链接按钮: 第一个跳转会议预约链接,第二个跳转邮箱 -->
       <template #links>
         <div
           v-if="page.links"
@@ -58,6 +72,8 @@ defineOgImage('Portfolio', { title, description })
         </div>
       </template>
     </UPageHero>
+
+    <!-- 项目列表 (运动主题逐项淡入上移) -->
     <UPageSection
       :ui="{
         container: 'pt-0!'
@@ -83,11 +99,13 @@ defineOgImage('Portfolio', { title, description })
             wrapper: 'max-sm:order-last'
           }"
         >
+          <!-- 头部: 项目年份 -->
           <template #leading>
             <span class="text-sm text-muted">
               {{ new Date(project.date).getFullYear() }}
             </span>
           </template>
+          <!-- 底部: "查看项目"链接,带 hover 右移动画 -->
           <template #footer>
             <ULink
               :to="project.url"

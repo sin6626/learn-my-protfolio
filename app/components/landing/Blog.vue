@@ -1,10 +1,18 @@
+/**
+ * 首页 Blog 精选区
+ * - 直接从 blog 集合取最新 3 篇文章 (按日期倒序)
+ * - 使用 UBlogPost 横向卡片布局,带"Read Article"按钮动画
+ */
+
 <script setup lang="ts">
 import type { IndexCollectionItem } from '@nuxt/content'
 
+// 接收首页数据 (取 blog 字段中的标题与描述)
 defineProps<{
   page: IndexCollectionItem
 }>()
 
+// 取最新的 3 篇博客文章 (按日期倒序)
 const { data: posts } = await useAsyncData('index-blogs', () =>
   queryCollection('blog').order('date', 'DESC').limit(3).all()
 )
@@ -27,6 +35,7 @@ if (!posts.value) {
       orientation="vertical"
       class="gap-4 lg:gap-y-4"
     >
+      <!-- 单个文章卡片 (横向布局,无卡片背景样式) -->
       <UBlogPost
         v-for="(post, index) in posts"
         :key="index"
@@ -40,6 +49,7 @@ if (!posts.value) {
           header: 'hidden'
         }"
       >
+        <!-- 底部 "Read Article" 链接按钮 (hover 时右移渐显) -->
         <template #footer>
           <UButton
             size="xs"
