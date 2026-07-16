@@ -18,15 +18,19 @@ defineProps<{
 </script>
 
 <template>
+  <!-- 下面这种是样式插槽的写法 -->
+  <!-- 就是给下面这些区域加上样式, 是unocss的写法 -->
   <UPageHero
     :ui="{
       headline: 'flex items-center justify-center',
+      // max-w-lg 对应宽度是512px, mx-auto: margin-inline: auto; m后面的x也就是x轴
       title: 'text-shadow-md max-w-lg mx-auto',
       links: 'mt-4 flex-col justify-center items-center'
     }"
   >
     <!-- 顶部头像: scale + 模糊渐入 -->
     <template #headline>
+      <!-- Motion是组件库Motio-v -->
       <Motion
         :initial="{
           scale: 1.1,
@@ -43,8 +47,10 @@ defineProps<{
           delay: 0.1
         }"
       >
-        <UColorModeAvatar
-          class="size-18 ring ring-default ring-offset-3 ring-offset-bg"
+        <!-- size-18就是同时设定h和w, 1一个数是4px, ring 是用box-shadow绘制一圈外部的描边, ring-default 是给box-shadow的边设计成default这个自定义设计好了的颜色
+        ring-offset-3: ring和元素执之间有3px的间隔 -->
+        <UColorModeAvatar 
+          class="size-18 ring ring-default ring-offset-3 ring-offset-bg "
           :light="global.picture?.light!"
           :dark="global.picture?.dark!"
           :alt="global.picture?.alt!"
@@ -119,6 +125,7 @@ defineProps<{
           class="flex items-center gap-2"
         >
           <!-- 第一个 CTA 按钮 (来自配置文件) -->
+          <!-- 这里的v-bind直接把一个对象中的所有属性全部都给组件给绑定上了 -->
           <UButton v-bind="page.hero.links[0]" />
           <!-- 接单状态按钮: 可接单时绿色脉冲,否则红色 -->
           <UButton
@@ -129,6 +136,7 @@ defineProps<{
             :label="global.available ? 'Available for new projects' : 'Not available at the moment'"
           >
             <!-- 前置: 脉冲圆点 (接单时) 或静止红点 -->
+             <!-- animate-ping 是Tailwind里面提供的css动画, 一种脉冲动画 -->
             <template #leading>
               <span class="relative flex size-2">
                 <span
@@ -174,6 +182,7 @@ defineProps<{
     </template>
 
     <!-- 跑马灯: 自动滚动展示一组图片 (鼠标悬停可暂停) -->
+    <!-- [--duration:40s]的写法就是[]里面直接写原生的css样式, 这里是说动画持续40s -->
     <UMarquee
       pause-on-hover
       class="py-2 -mx-8 sm:-mx-12 lg:-mx-16 [--duration:40s]"
@@ -197,6 +206,8 @@ defineProps<{
         }"
       >
         <!-- 跑马灯内每个图片: 偶数项向左微旋,奇数项向右微旋 -->
+        <!-- 原生的css中aspect-ratio: 宽/高 常用于视频图片的比例, 如如16/9 -->
+        <!-- object-cover对应原生的css的object-fit:cover, 表示图片撑满盒子, 然后裁剪掉多余的部分, 多用于展示头像 -->
         <NuxtImg
           width="234"
           height="234"

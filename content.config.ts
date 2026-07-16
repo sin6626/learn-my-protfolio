@@ -65,10 +65,14 @@ const createTestimonialSchema = () => z.object({
 })
 
 export default defineContentConfig({
+  // 下面都是很经典的 NuxtContent的写法, 这个包下面自带Zod去做添加schema属性做自定义自己的模式
+  // zod 是一个在Ts编写阶段和运行阶段都会进行校验的库, 非常的流行, 尤其在Ts写的后端中
   collections: {
     // 首页内容集合 (单文件 index.yml)
     index: defineCollection({
+      // type 有两个值, 一个page,一个是data, 详细可以见https://content.nuxt.com/docs/collections/types#data-type
       type: 'page',
+      // 来源顾名思义, 这个集合的来源是什么文件(注意是在content目录下的), 可以支持通配符
       source: 'index.yml',
       schema: z.object({
         // Hero 区: CTA 按钮组 + 跑马灯图片组
@@ -127,9 +131,13 @@ export default defineContentConfig({
     blog: defineCollection({
       type: 'page',
       source: 'blog/*.md',
+      // 这个schema是一个给用户自定义的一个字段, 最后不会渲染
+      // 最后的渲染是这样的:
+      // type: , source: , minRead: , date: , image: , author: ,
       schema: z.object({
         minRead: z.number(),
         date: z.date(),
+        // nonempty()是非空
         image: z.string().nonempty().editor({ input: 'media' }),
         author: createAuthorSchema()
       })

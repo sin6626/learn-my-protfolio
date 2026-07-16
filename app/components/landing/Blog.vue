@@ -14,6 +14,7 @@ defineProps<{
 
 // 取最新的 3 篇博客文章 (按日期倒序)
 const { data: posts } = await useAsyncData('index-blogs', () =>
+  // all() 才是最后真正查询, 前面的语句都类似于构建sql而已, 除了all(), 还可以使用first(), 返回第一条符合的数据, one() 取唯一的一条, 没有就跑错误
   queryCollection('blog').order('date', 'DESC').limit(3).all()
 )
 if (!posts.value) {

@@ -43,6 +43,7 @@ defineProps<{
           <!-- 日期与公司间分隔线 -->
           <USeparator />
           <!-- 公司链接 (新窗口打开,公司色 + logo) -->
+          <!-- target就是原生a标签的target, _blank就是打开一个新的页面也就是外链, 常见的还有_self是改变当前页面变成新的页面, 默认是_self -->
           <ULink
             class="flex items-center gap-1"
             :to="experience.company.url"
@@ -56,6 +57,7 @@ defineProps<{
               :style="{ color: experience.company.color }"
             >
               <span class="font-medium">{{ experience.company.name }}</span>
+              <!-- UIcon 的name属性里面可以传递Iconify的所有的图标 -->
               <UIcon :name="experience.company.logo" />
             </div>
           </ULink>
