@@ -49,7 +49,7 @@ defineProps<{
       >
         <!-- size-18就是同时设定h和w, 1一个数是4px, ring 是用box-shadow绘制一圈外部的描边, ring-default 是给box-shadow的边设计成default这个自定义设计好了的颜色
         ring-offset-3: ring和元素执之间有3px的间隔 -->
-        <UColorModeAvatar 
+        <UColorModeAvatar
           class="size-18 ring ring-default ring-offset-3 ring-offset-bg "
           :light="global.picture?.light!"
           :dark="global.picture?.dark!"
@@ -136,7 +136,7 @@ defineProps<{
             :label="global.available ? 'Available for new projects' : 'Not available at the moment'"
           >
             <!-- 前置: 脉冲圆点 (接单时) 或静止红点 -->
-             <!-- animate-ping 是Tailwind里面提供的css动画, 一种脉冲动画 -->
+            <!-- animate-ping 是Tailwind里面提供的css动画, 一种脉冲动画 -->
             <template #leading>
               <span class="relative flex size-2">
                 <span
