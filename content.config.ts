@@ -144,6 +144,7 @@ export default defineContentConfig({
     }),
     // 通用页面集合 (用于 projects / blog 列表页等)
     pages: defineCollection({
+      // type 为page类型, 会给source字段的文件去掉文件扩展名, 然后生成一个路径, 配合queryCollection().path() 使用
       type: 'page',
       source: [
         { include: 'projects.yml' },

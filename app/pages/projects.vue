@@ -91,11 +91,14 @@ defineOgImage('Portfolio', { title, description })
           :title="project.title"
           :description="project.description"
           :to="project.url"
+          target="_blank"
           orientation="horizontal"
           variant="naked"
           :reverse="index % 2 === 1"
           class="group"
           :ui="{
+            // max-sm, 即比sm(640px)屏幕小的屏幕, 把wrapper区域放在最后, 说到底就是适配移动端, 让上面的reverse失效, 最后可以实现上图下文的效果
+            // warpper实测应该是文字块, 图片块是默认插槽部分
             wrapper: 'max-sm:order-last'
           }"
         >
@@ -106,6 +109,7 @@ defineOgImage('Portfolio', { title, description })
             </span>
           </template>
           <!-- 底部: "查看项目"链接,带 hover 右移动画 -->
+          <!-- 下面的flex items-center感觉有点冗余 -->
           <template #footer>
             <ULink
               :to="project.url"
@@ -118,6 +122,7 @@ defineOgImage('Portfolio', { title, description })
               />
             </ULink>
           </template>
+          <!-- object-over又忘记了, 保持图片比例，把盒子填满，多余部分裁掉 -->
           <img
             :src="project.image"
             :alt="project.title"
