@@ -7,15 +7,15 @@
 
 export default defineNuxtConfig({
   // 依赖的功能模块
-  modules: [
-    '@nuxt/eslint', // ESLint 集成
-    '@nuxt/image', // 图片优化与 NuxtImg 组件
-    '@nuxt/ui', // Nuxt UI 组件库 (含 Tailwind CSS)
-    '@nuxt/content', // Nuxt Content 内容管理
-    '@vueuse/nuxt', // VueUse 工具集自动导入
-    'nuxt-og-image', // 社交分享 OG 图生成
-    'motion-v/nuxt' // motion-v 动效组件 (Motion) 自动导入
-  ],
+  modules: [// ESLint 集成
+    '@nuxt/eslint', // 图片优化与 NuxtImg 组件
+    '@nuxt/image', // Nuxt UI 组件库 (含 Tailwind CSS)
+    '@nuxt/ui', // Nuxt Content 内容管理
+    '@nuxt/content', // VueUse 工具集自动导入
+    '@vueuse/nuxt', // 社交分享 OG 图生成
+    'nuxt-og-image', // motion-v 动效组件 (Motion) 自动导入
+    'motion-v/nuxt',
+    'nuxt-studio'],
 
   // 启用开发工具
   devtools: {

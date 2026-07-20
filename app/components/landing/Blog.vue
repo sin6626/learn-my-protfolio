@@ -18,6 +18,8 @@ const { data: posts } = await useAsyncData('index-blogs', () =>
   queryCollection('blog').order('date', 'DESC').limit(3).all()
 )
 if (!posts.value) {
+  // Nuxt里面的api, 地址: https://nuxt.com/docs/4.x/api/utils/create-error
+  // fatal 设置为true, 触发全屏错误页面, 会直接展示error.vue页面
   throw createError({ statusCode: 404, statusMessage: 'blogs posts not found', fatal: true })
 }
 </script>
@@ -37,6 +39,11 @@ if (!posts.value) {
       class="gap-4 lg:gap-y-4"
     >
       <!-- 单个文章卡片 (横向布局,无卡片背景样式) -->
+      <!-- 下面的:to="post.path", to就是ULink的to, page属性是NuxtContent自动生成的, 不会显示的写在post对应的集合中, 加了to这个属性的组件, 会整个都变成一个可以跳转的链接, 鼠标悬浮会变成一个小手 -->
+      <!-- v-bind里面明明绑定了那么多UBlogPost需要的属性, 但是却很多都没有生效, 是因为下面的ui插槽的设置 -->
+      <!-- header: hidden, 对应display: none, 把会显示在header部分的内容全部都给隐藏了 -->
+      <!-- 有关Tailwind中group属性地址: https://tailwindcss.com/docs/hover-focus-and-other-states#styling-based-on-the-descendants-of-a-group -->
+      <!-- 在Tailwind中, 有hover: 可以使用, 当鼠标悬浮在元素上的时候会生效, 但是如果是一个div 里面包裹着img, 我想要当我鼠标悬浮的div的时候, 我的img元素也能有变化. 在Tailwind中, img元素并不知道div元素有没有被鼠标悬浮, 这时候就可以使用group, 使用group绑定了父元素div, 然后子元素使用group-hover: 就可以监听到父元素的变化了 -->
       <UBlogPost
         v-for="(post, index) in posts"
         :key="index"

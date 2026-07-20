@@ -26,9 +26,15 @@ const items = computed(() => {
 // UTabs 的自定义 UI 样式覆盖 (列表、指示器、触发器、标签)
 const ui = {
   root: 'flex items-center gap-4 w-full',
+  // 这个list是指代顶部tabs那一行, bg-transparent是让背景变成透明
   list: 'relative flex bg-transparent dark:bg-transparent gap-2 px-0',
   indicator: 'absolute top-[4px] duration-200 ease-out focus:outline-none rounded-lg bg-elevated/60',
-  trigger: 'px-3 py-2 rounded-lg hover:bg-muted/50 data-[state=active]:text-highlighted data-[state=inactive]:text-muted',
+  // 关键技巧 data-[state=active]:text-highlighted 当 element 有 data-state="active" 属性时,文字色变成 Nuxt UI 的 text-highlighted(最突出文字色)
+  // data-[state=inactive]:text-muted 未激活时文字色 text-muted(次要文字色)
+  trigger: 'px-3 py-2 rounded-lg hover:bg-muted/50 data-[state=active]:text-highlighted data-[state=inactive]:text-muted flex-1',
+  // truncate 是Tailwind中, 对应三个css样式
+  // overflow: hidden;text-overflow: ellipsis;white-space: nowrap;
+  // 分别是表示, 超出盒子的部分隐藏, 隐藏部分使用省略号展示, 文字不换行, 组合拳
   label: 'truncate'
 }
 </script>
@@ -56,12 +62,17 @@ const ui = {
           :items="item.questions"
           :unmount-on-hide="false"
           :ui="{
+            // border-none => border-style: none, 但是如果还有border-width: 10px 是无法消除的
             item: 'border-none',
+            // transform-gpu, 强制是用GPU优化动画,在GPU合成层
+            // will-change-transform => will-change: transform, 提前指示浏览器, 作性能优化
             trigger: 'mb-2 border-0 group px-4 transform-gpu rounded-lg bg-elevated/60 will-change-transform hover:bg-muted/50 text-base',
             trailingIcon: 'group-data-[state=closed]:rotate-0 group-data-[state=open]:rotate-135 text-base text-muted'
           }"
         >
           <!-- 折叠展开后的内容: MDC 渲染,去掉顶层 p 包裹 -->
+          <!-- {item: _item} 写法是作用域插槽结构+重命名的写法 -->
+          <!-- 在使用MDC渲染的时候, Markdown单文字外面包裹一层p标签 => <p>xxxxxx</p> unwarp='p' 就是去除掉外面的p标签 -->
           <template #body="{ item: _item }">
             <MDC
               :value="_item.content"

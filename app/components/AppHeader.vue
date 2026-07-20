@@ -17,7 +17,8 @@ defineProps<{
 
 <template>
   <!-- 容器: 固定定位 + 居中 + 高 z-index 保证悬浮在内容之上 -->
-  <div class="fixed top-2 sm:top-4 mx-auto left-1/2 transform -translate-x-1/2 z-10">
+  <!-- Tailwind经典居中样式组合 left-1/2 距离左边宽度的一半, transform -translate-x-1/2 往左边移动自身的宽度的一半 -->
+  <div class="fixed top-2 sm:top-4 left-1/2 transform -translate-x-1/2 z-10">
     <UNavigationMenu
       :items="links"
       variant="link"
