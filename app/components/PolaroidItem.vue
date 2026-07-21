@@ -18,6 +18,8 @@ defineProps<{
 
 <template>
   <!-- 白色卡片容器: 阴影、过渡动画、根据索引左右旋转 -->
+  <!-- 下面的transition-transform表示transition属性只监听transform -->
+  <!-- translate-x-4 x轴移动4rem单位 -->
   <div
     class="bg-white p-2 flex flex-col drop-shadow-2xl transition-transform duration-300 ease-in-out hover:scale-105 hover:rotate-0 hover:z-10"
     :class="[
@@ -32,6 +34,7 @@ defineProps<{
       class="size-32 object-cover"
     >
     <!-- 图片说明 (衬线字体) -->
+    <!-- font-serif 衬线字体=> 文艺, 传统, 书籍感 -->
     <span class="w-32 text-xs text-black font-serif font-medium text-center mt-2">
       {{ image.alt }}
     </span>
