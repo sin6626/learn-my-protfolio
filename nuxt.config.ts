@@ -38,11 +38,13 @@ export default defineNuxtConfig({
 
   // Nitro 服务端配置
   nitro: {
+    // 预渲染
     prerender: {
       // 显式预渲染根路径,并启用链接爬取发现更多需预渲染的页面
       routes: [
         '/'
       ],
+      // 爬取链接, 像搜索引擎一样寻找<a>, 然后发现别的页面, 然后继续预渲染这些页面
       crawlLinks: true
     }
   },
@@ -60,6 +62,7 @@ export default defineNuxtConfig({
   // nuxt-og-image 配置
   ogImage: {
     // 零运行时模式: OG 图在构建时静态生成,不占用运行时
+    // 看见零运行时模式之后, 由于服务器
     zeroRuntime: true
   }
 })

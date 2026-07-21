@@ -13,6 +13,7 @@ type Event = {
   date: string
   location: string
   url?: string
+  // podcast 博客
   category: 'Conference' | 'Live talk' | 'Podcast'
 }
 
@@ -93,17 +94,21 @@ function formatDate(dateString: string): string {
         container: 'pt-0!'
       }"
     >
+      <!-- last:mb-0, 让父类下的最后一个元素的margin-button: 0 -->
       <div
         v-for="(eventsInCategory, category) in groupedEvents"
         :key="category"
         class="grid grid-cols-1 lg:grid-cols-3 lg:gap-8 mb-16 last:mb-0"
       >
         <!-- 左栏: 分类标题 (大屏 sticky 固定) -->
+        <!-- col-span 是 Grid 子元素占几列, tracking-tight 是letter-spacing: -0.025rem, 让字母之前挨得近些 -->
+        <!-- sticky属性让元素变成粘性, 元素定位为 relative ，直到它越过指定的阈值(也就是top属性, sticky必须要配合top属性去使用)，然后将其视为 fixed ，直到其父元素移出屏幕. 经典用法章节标题跟随内容滚动贴顶 -->
         <div class="lg:col-span-1 mb-4 lg:mb-0">
           <h2
             class="lg:sticky lg:top-16 text-xl font-semibold tracking-tight text-highlighted"
           >
             <!-- 在分类名尾部加 s 表示复数 (Live talk → Live talks) -->
+            <!-- [A-Z] 表示匹配, 加了([])表示捕获, /g是全局捕获, 也就是说会一直捕获, 然后每次捕获到的字符都是被替换成' $1' 其中$1表示每一个捕获组的内容, 也就是给每一个大写字母前面加上一个空格的作用, 后面replace最用就是匹配第一个字母, 然后把它改成大写而已, 其中^是匹配首位, '.'是任意字符, 最后的s也就是补充的复数 -->
             {{ category.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase()) }}s
           </h2>
         </div>

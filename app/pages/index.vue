@@ -43,6 +43,8 @@ useSeoMeta({
   // 分享时候的卡片封面图
   ogImage: 'https://ui.nuxt.com/assets/templates/nuxt/portfolio-light.png'
 })
+
+defineOgImage('Docs.takumi')
 </script>
 
 <template>

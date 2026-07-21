@@ -8,6 +8,7 @@
 
 <script setup lang="ts">
 // OG 图作为根节点直接渲染,关闭属性继承避免 attrs 附加到 div
+// vue3中的编译宏, 默认是父组件传递的非Props的属性会自动落到子组件的根元素上, 不利于og-image 的图片渲染引擎Takumi渲染图片
 defineOptions({
   inheritAttrs: false
 })
@@ -22,6 +23,7 @@ defineProps<{
 
 <template>
   <!-- OG 图根节点: 暗色背景,固定尺寸 (由 og-image 上下文给定),主题强制 dark -->
+  <!-- data-* 是h5的自定义属性 -->
   <div
     class="w-full h-full flex bg-neutral-950 relative overflow-hidden"
     data-theme="dark"
@@ -50,6 +52,7 @@ defineProps<{
           {{ title }}
         </h1>
 
+        <!-- text-3xl/11 是字号+行高的写法, lineClamp: 2是最多两行, 多余截断, 配合textOverflow: 'ellipsis' 多余的显示省略号 -->
         <p
           v-if="description"
           class="text-3xl/11 text-muted"
