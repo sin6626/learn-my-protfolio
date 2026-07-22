@@ -18,6 +18,11 @@
 }
 
 .dark {
+  /* --ui-bg: oklch(14.5% 0 0);
+  --ui-bg-muted: oklch(18.5% 0 0);
+  --ui-bg-elevated: oklch(22% 0 0);
+  --ui-bg-accented: oklch(26% 0 0); */
+
   ::selection {
     color: #ffffff;
     background-color: #474747;

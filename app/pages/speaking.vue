@@ -120,7 +120,7 @@ function formatDate(dateString: string): string {
             :key="`${category}-${index}`"
             class="group relative pl-6 border-l border-default"
           >
-            <!-- 整块可点击跳转 (NuxtLink 占满父级) -->
+            <!-- 整块可点击跳转 (NuxtLink 占满父级 细节) -->
             <NuxtLink
               v-if="event.url"
               :to="event.url"
