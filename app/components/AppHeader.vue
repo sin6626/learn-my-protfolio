@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from '@nuxt/ui'
 
-// 接收导航菜单项数组
+// 接收导航菜单项数组 (统一来自 utils/links.ts 的 navLinks)
 defineProps<{
   links: NavigationMenuItem[]
 }>()
@@ -30,6 +30,17 @@ defineProps<{
         linkLeadingIcon: 'hidden'
       }"
     >
+      <!-- 自定义导航项前置图标: 仅当前激活项显示图标(高亮色),非激活项渲染同尺寸占位避免布局抖动 -->
+      <template #item-leading="{ item, active }">
+        <span class="size-4 flex items-center justify-center">
+          <UIcon
+            v-if="active"
+            :name="item.icon"
+            class="size-4"
+          />
+        </span>
+      </template>
+
       <!-- 末尾追加颜色模式切换按钮 -->
       <template #list-trailing>
         <ColorModeButton />
